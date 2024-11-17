@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: jpa-test
+  datasource:
+    url: jdbc:mysql://localhost:3306/jpa_test
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: always

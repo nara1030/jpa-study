@@ -22,6 +22,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(HttpMethod.POST, "/dept/members").permitAll()
+                        .requestMatchers("/user-info").permitAll() // 테스트 위해 허용
                         .anyRequest().authenticated()
                 );
 

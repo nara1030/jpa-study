@@ -19,6 +19,18 @@ public class UserRole {
         return role;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "UserRole{" +

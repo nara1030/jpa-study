@@ -10,6 +10,14 @@ public class Dept {
 
     private String name;
 
+    public Dept(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Dept() {
+    }
+
     public String getId() {
         return id;
     }

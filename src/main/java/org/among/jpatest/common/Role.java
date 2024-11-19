@@ -22,4 +22,12 @@ public enum Role {
         }
         throw new RuntimeException("Role not found with ID: " + roleId);
     }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

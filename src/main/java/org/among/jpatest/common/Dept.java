@@ -4,9 +4,6 @@ public enum Dept {
     SALES("01", "영업부"),
     ACCOUNTING("02", "회계부");
 
-//    Dept(String code, String name) {
-//    }
-
     // getDeptById 메소드 위해 필드 선언
     private String code;
     private String name;
@@ -24,6 +21,10 @@ public enum Dept {
             }
         }
         throw new RuntimeException("Dept not found with ID: " + deptId);
+    }
+
+    public String getCode() {
+        return code;
     }
 
     public String getName() {

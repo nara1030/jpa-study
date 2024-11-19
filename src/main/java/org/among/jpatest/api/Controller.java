@@ -10,9 +10,7 @@ import org.among.jpatest.service.UserService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,10 +19,17 @@ public class Controller {
     @Autowired
     private UserService userService;
 
+    /**
+     * 요청 URL: POST, http://localhost:8080/dept/members
+     * JSON in Request Body
+     *  변경 전: {"userId": "01", "password": "1234", "role": "leader", "deptCode": "02", "requestTime": "2024-11-15 17:32:45"}
+     *  변경 후: {"userId": "01", "password": "1234", "roles": ["leader", "member"], "deptCode": "02", "requestTime": "2024-11-15 17:32:45"}
+     */
     @PostMapping("/dept/members")
     public ResponseEntity<UserResponse> getDeptMembers(@RequestBody UserRequest userRequest) {
         // LOG: (ID: ) 접근 요청이 있습니다.
         System.out.printf("(ID: %s) 접근 요청이 있습니다.%n", userRequest.getUserId());
+        System.out.println(userRequest);
 
         // 1. 조회 로직
         // 객체 그래프 탐색 테스트: User -> Dept, User -> Role
@@ -65,9 +70,39 @@ public class Controller {
         return ResponseEntity.ok(userResponse);
     }
 
-    // 회원 가입 로직
+    /**
+     * 요청 URL: POST, http://localhost:8080/user-info
+     * JSON in Request Body
+     *  {"userId": "01", "name": "rami", "password": "1234", "roles": ["leader","member"], "deptCode": "02", "requestTime": "2024-11-15 17:32:45"}
+     */
+    // 회원 가입 로직(User 및 UserRole 테이블 삽입)
+    @PostMapping("/user-info")
+    public ResponseEntity<Void> join(@RequestBody UserRequest userRequest) {
+        userService.create(userRequest);
+        return ResponseEntity.ok().build();
+    }
 
-    // 회원정보 수정 로직
+    /**
+     * 요청 URL: PUT, http://localhost:8080/user-info
+     * JSON in Request Body
+     *  {"userId": "01", "name": "rami", "password": "1234", "roles": ["member"], "deptCode": "01", "requestTime": "2024-11-15 17:32:45"}
+     */
+    // 회원정보 수정 로직(User 및 UserRole 테이블 변경)
+    @PutMapping("/user-info")
+    public ResponseEntity<Void> update(@RequestBody UserRequest userRequest) {
+        userService.update(userRequest);
+        return ResponseEntity.ok().build();
+    }
 
+    /**
+     * 요청 URL: DELETE, http://localhost:8080/user-info
+     * JSON in Request Body
+     *  {"userId": "01", "requestTime": "2024-11-15 17:32:45"}
+     */
     // 회원 탈퇴 로직
+    @DeleteMapping("/user-info")
+    public ResponseEntity<UserResponse> delete(@RequestBody UserRequest userRequest) {
+        userService.delete(userRequest);
+        return ResponseEntity.ok().build();
+    }
 }
